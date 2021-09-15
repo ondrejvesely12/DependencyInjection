@@ -23,6 +23,14 @@ public extension DependencyContainerProtocol {
         resolveOptional(registrationIdentifier: registrationIdentifier, argument: ())
     }
 
+    func resolveOptional<Service>(name: String) -> Service? {
+        resolveOptional(registrationIdentifier: .name(name), argument: ())
+    }
+
+    func resolveOptional<Service, Argument>(name: String, argument: Argument) -> Service? {
+        resolveOptional(registrationIdentifier: .name(name), argument: argument)
+    }
+
     func resolveOptional<Service, Argument>(argument: Argument) -> Service? {
         let registrationIdentifier = RegistrationIdentifier.objectIdentifier(ObjectIdentifier(Service.self))
         return resolveOptional(registrationIdentifier: registrationIdentifier, argument: argument)
@@ -42,9 +50,23 @@ public extension DependencyContainerProtocol {
         return service
     }
 
+    func resolve<Service, Argument>(name: String, argument: Argument) -> Service {
+        guard let service: Service = resolveOptional(name: name, argument: argument) else {
+            fatalError("No named \"\(name)\" dependency found for \"\(Service.self)\" must register a dependency before resolve.")
+        }
+        return service
+    }
+
     func resolve<Service>() -> Service {
         guard let service: Service = resolveOptional() else {
             fatalError("No dependency found for \"\(Service.self)\" must register a dependency before resolve.")
+        }
+        return service
+    }
+
+    func resolve<Service>(name: String) -> Service {
+        guard let service: Service = resolveOptional(name: name) else {
+            fatalError("No named \"\(name)\" dependency found for \"\(Service.self)\" must register a dependency before resolve.")
         }
         return service
     }
