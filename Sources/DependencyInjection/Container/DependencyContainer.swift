@@ -1,16 +1,14 @@
 //
 //  DependencyContainer.swift
-//  
 //
 //  Created by Ondřej Veselý on 12.09.2021.
 //
-
 
 public final class DependencyContainer: DependencyContainerProtocol {
     // MARK: - Properties
 
     // MARK: Private
-    
+
     private var factories = [RegistrationIdentifier: DependencyRegistrationProtocol]()
 
     // MARK: Register
@@ -25,18 +23,18 @@ public final class DependencyContainer: DependencyContainerProtocol {
     }
 
     // MARK: Remove
-    
+
     /// Removes registration by the identifier
     public func remove(registrationIdentifier: RegistrationIdentifier) {
         assert(factories.keys.contains(registrationIdentifier))
         factories.removeValue(forKey: registrationIdentifier)
     }
-    
+
     /// Removes all registrations in the container.
     public func removeAll() {
         factories.removeAll()
     }
-    
+
     // MARK: Resolve Optional
 
     /// Retrieves the instance with the specified service type.
@@ -76,4 +74,3 @@ public final class DependencyContainer: DependencyContainerProtocol {
         return instance
     }
 }
-

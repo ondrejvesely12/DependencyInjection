@@ -1,6 +1,5 @@
 //
 //  DependencyContainerProtocol.swift
-//  
 //
 //  Created by Ondřej Veselý on 12.09.2021.
 //
@@ -21,7 +20,7 @@ public protocol DependencyContainerProtocol {
 
     /// Removes all registrations in the container.
     func removeAll()
-    
+
     // MARK: Resolve
 
     /// Retrieves the instance with the specified service type.

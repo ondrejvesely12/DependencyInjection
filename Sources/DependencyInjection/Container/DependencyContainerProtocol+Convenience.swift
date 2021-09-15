@@ -1,6 +1,5 @@
 //
 //  DependencyContainerProtocol+Convenience.swift
-//  
 //
 //  Created by Ondřej Veselý on 12.09.2021.
 //
@@ -12,7 +11,7 @@ public extension DependencyContainerProtocol {
         register(DependencyRegistration(name: name, lifeCycle: lifeCycle, factory))
     }
 
-    func register<Service, Argument>(lifeCycle: RegistrationLifeCycle,_ factory: @escaping (_ argument: Argument) -> Service) {
+    func register<Service, Argument>(lifeCycle: RegistrationLifeCycle, _ factory: @escaping (_ argument: Argument) -> Service) {
         register(DependencyRegistration(lifeCycle, factory))
     }
 
@@ -21,7 +20,7 @@ public extension DependencyContainerProtocol {
     // MARK: Optional
 
     func resolveOptional<Service>(registrationIdentifier: RegistrationIdentifier) -> Service? {
-        resolveOptional(registrationIdentifier: registrationIdentifier, argument: Void())
+        resolveOptional(registrationIdentifier: registrationIdentifier, argument: ())
     }
 
     func resolveOptional<Service, Argument>(argument: Argument) -> Service? {
@@ -31,7 +30,7 @@ public extension DependencyContainerProtocol {
 
     func resolveOptional<Service>() -> Service? {
         let registrationIdentifier = RegistrationIdentifier.objectIdentifier(ObjectIdentifier(Service.self))
-        return resolveOptional(registrationIdentifier: registrationIdentifier, argument: Void())
+        return resolveOptional(registrationIdentifier: registrationIdentifier, argument: ())
     }
 
     // MARK: Non Optional

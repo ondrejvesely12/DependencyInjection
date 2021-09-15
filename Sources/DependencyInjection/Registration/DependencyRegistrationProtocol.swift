@@ -1,6 +1,5 @@
 //
 //  DependencyRegistrationProtocol.swift
-//  
 //
 //  Created by Ondřej Veselý on 12.09.2021.
 //
