@@ -4,7 +4,7 @@
 //  Created by Ondřej Veselý on 12.09.2021.
 //
 
-public protocol DependencyContainerProtocol {
+public protocol DependencyContainerProtocol: AnyObject {
     // MARK: Register
 
     /// Adds a registration for the specified service
