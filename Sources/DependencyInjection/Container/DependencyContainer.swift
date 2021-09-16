@@ -9,7 +9,7 @@ public final class DependencyContainer: DependencyContainerProtocol {
 
     // MARK: Private
 
-    private var factories = [RegistrationIdentifier: DependencyRegistrationProtocol]()
+    private var registrations = [RegistrationIdentifier: DependencyRegistrationProtocol]()
 
     // MARK: Register
 
@@ -19,20 +19,20 @@ public final class DependencyContainer: DependencyContainerProtocol {
     /// - Parameters:
     ///   - dependencyRegistration: The service type to register.
     public func register(_ dependencyRegistration: DependencyRegistrationProtocol) {
-        factories[dependencyRegistration.identifier] = dependencyRegistration
+        registrations[dependencyRegistration.identifier] = dependencyRegistration
     }
 
     // MARK: Remove
 
     /// Removes registration by the identifier
     public func remove(registrationIdentifier: RegistrationIdentifier) {
-        assert(factories.keys.contains(registrationIdentifier))
-        factories.removeValue(forKey: registrationIdentifier)
+        assert(registrations.keys.contains(registrationIdentifier))
+        registrations.removeValue(forKey: registrationIdentifier)
     }
 
     /// Removes all registrations in the container.
     public func removeAll() {
-        factories.removeAll()
+        registrations.removeAll()
     }
 
     // MARK: Resolve Optional
@@ -46,7 +46,7 @@ public final class DependencyContainer: DependencyContainerProtocol {
     /// - Returns: The resolved service type instance, or nil if no registration for the service type
     ///            is found in the `Container`.
     public func resolveOptional<Service, Argument>(registrationIdentifier: RegistrationIdentifier, argument: Argument) -> Service? {
-        guard var dependencyRegistration = factories[registrationIdentifier] else {
+        guard var dependencyRegistration = registrations[registrationIdentifier] else {
             return nil
         }
         switch dependencyRegistration.lifeCycle {
@@ -56,7 +56,7 @@ public final class DependencyContainer: DependencyContainerProtocol {
             guard let sharedInstance = dependencyRegistration.instance as? Service else {
                 let instance: Service? = privateResolveOptional(registrationIdentifier: registrationIdentifier, argument: argument)
                 dependencyRegistration.instance = instance
-                factories[dependencyRegistration.identifier] = dependencyRegistration
+                registrations[dependencyRegistration.identifier] = dependencyRegistration
                 return instance
             }
             return sharedInstance
@@ -66,11 +66,23 @@ public final class DependencyContainer: DependencyContainerProtocol {
     // MARK: Private Resolve
 
     private func privateResolveOptional<Service, Argument>(registrationIdentifier: RegistrationIdentifier, argument: Argument) -> Service? {
-        guard let dependencyRegistration = factories[registrationIdentifier] else {
+        guard let dependencyRegistration = registrations[registrationIdentifier] else {
             return nil
         }
         let factory: (Argument) -> Service = dependencyRegistration.getFactory()
         let instance = factory(argument)
         return instance
+    }
+    
+    // MARK: - Initialization
+
+    public init() {
+        registrations = [:]
+    }
+
+    public init(_ registrations: [DependencyRegistrationProtocol]) {
+        self.registrations = registrations.reduce(into: [:], { result, dependencyRegistration in
+            result[dependencyRegistration.identifier] = dependencyRegistration
+        })
     }
 }
