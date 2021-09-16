@@ -44,7 +44,7 @@ struct Machine {
 class CoffeeMachine {
     @LazyInjectedWithArgument<ElectricHeaterProtocol, Voltage>(name: "machineHeater230V", argument: .v230, container: Dependencies.main)
     var heater: ElectricHeaterProtocol
-    @Injected<TestClass>(Dependencies.main) var testClass
+    @Injected<TestClass>(container: Dependencies.main) var testClass
 }
 
 enum Dependencies {
@@ -63,7 +63,7 @@ enum Dependencies {
 }
 
 private class TestClassWithWrappers {
-    @Injected(Dependencies.main) var testClass: TestClass
+    @Injected(container: Dependencies.main) var testClass: TestClass
     var counter = 0
 
     func inc() {

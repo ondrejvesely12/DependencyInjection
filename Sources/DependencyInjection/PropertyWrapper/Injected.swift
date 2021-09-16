@@ -13,11 +13,11 @@
 
     // MARK: - Initialization
 
-    public init(_ container: DependencyContainerProtocol) {
+    public init(container: DependencyContainerProtocol) {
         wrappedValue = container.resolve(argument: ())
     }
 
-    public init(_ container: DependencyContainerProtocol, name: String) {
+    public init(name: String, container: DependencyContainerProtocol) {
         wrappedValue = container.resolve(registrationIdentifier: .name(name), argument: ())
     }
 }

@@ -36,8 +36,12 @@
 
     // MARK: - Initialization
 
-    public init(name: String? = nil, container: DependencyContainerProtocol) {
+    public init(name: String?, container: DependencyContainerProtocol) {
         self.container = container
         self.name = name
+    }
+
+    public init(container: DependencyContainerProtocol) {
+        self.container = container
     }
 }
