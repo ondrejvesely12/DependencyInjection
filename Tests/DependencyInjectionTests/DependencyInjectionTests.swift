@@ -1,9 +1,9 @@
-import XCTest
 @testable import DependencyInjection
+import XCTest
 
 class TestClass {
     var counter = 0
-    
+
     func inc() {
         counter += 1
     }
@@ -45,8 +45,8 @@ class CoffeeMachine {
     @Injected<TestClass>(Dependencies.main) var testClass
 }
 
-struct Dependencies {
-    static let main: DependencyContainer =
+enum Dependencies {
+    static let main =
         DependencyContainer {
             DependencyRegistration(.oneTime) {
                 TestClass() as TestClass
@@ -63,7 +63,7 @@ struct Dependencies {
 private class TestClassWithWrappers {
     @Injected(Dependencies.main) var testClass: TestClass
     var counter = 0
-    
+
     func inc() {
         counter += 1
     }
@@ -72,14 +72,14 @@ private class TestClassWithWrappers {
 final class DependencyInjectionTests: XCTestCase {
     func testString() {
         let container: DependencyContainerProtocol = DependencyContainer()
-        container.register(DependencyRegistration(.shared, {
+        container.register(DependencyRegistration(.shared) {
             "eeee" as String
-        }))
-        
-        let string: String = container.resolve(argument: Void())
+        })
+
+        let string: String = container.resolve(argument: ())
         XCTAssertEqual(string, "eeee")
     }
-    
+
     func testDSL() {
         let container = DependencyContainer {
             DependencyRegistration(.oneTime) {
@@ -92,9 +92,9 @@ final class DependencyInjectionTests: XCTestCase {
                 TestClass()
             }
         }
-        let string: String = container.resolve(argument: Void())
+        let string: String = container.resolve(argument: ())
         XCTAssertEqual(string, "")
-        let int: Int = container.resolve(argument: Void())
+        let int: Int = container.resolve(argument: ())
         XCTAssertEqual(int, 2)
     }
 
@@ -109,16 +109,16 @@ final class DependencyInjectionTests: XCTestCase {
         testClass.inc()
         XCTAssertEqual(testClass.counter, 1)
 
-        let testClass2: TestClass = container.resolve(argument: Void())
+        let testClass2: TestClass = container.resolve(argument: ())
         XCTAssertEqual(testClass2.counter, 1)
         testClass.inc()
         testClass.inc()
         testClass.inc()
         XCTAssertEqual(testClass2.counter, 4)
-        let testClass3: TestClass = container.resolve(argument: Void())
+        let testClass3: TestClass = container.resolve(argument: ())
         XCTAssertEqual(testClass3.counter, 4)
     }
-    
+
     func testDSLOneTime() {
         let container = DependencyContainer {
             DependencyRegistration(.oneTime) {
@@ -149,13 +149,12 @@ final class DependencyInjectionTests: XCTestCase {
         let testClass: TestClass? = container.resolve()
         XCTAssertEqual(testClass?.counter, 0)
     }
-    
+
     func testPropertyWrapper() {
         let testClassWithWrappers = TestClassWithWrappers()
         XCTAssertEqual(testClassWithWrappers.testClass.counter, 0)
         let testClassWithWrappers2 = TestClassWithWrappers()
         XCTAssertEqual(testClassWithWrappers2.testClass.counter, 0)
-
     }
 
     func testWithArguments() {
@@ -167,5 +166,3 @@ final class DependencyInjectionTests: XCTestCase {
         XCTAssertEqual(heater.voltage, Voltage.v230.rawValue)
     }
 }
-
-
