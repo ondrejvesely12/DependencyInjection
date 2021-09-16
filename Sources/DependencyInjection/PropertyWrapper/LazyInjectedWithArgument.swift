@@ -24,7 +24,7 @@
     // MARK: Private
 
     private var value: Service?
-    private var container: DependencyContainerProtocol
+    private var container: ContainerProtocol
     private var name: String?
     private var argument: Argument
 
@@ -37,13 +37,13 @@
 
     // MARK: - Initialization
 
-    public init(name: String, argument: Argument, container: DependencyContainerProtocol) {
+    public init(name: String, argument: Argument, container: ContainerProtocol) {
         self.container = container
         self.argument = argument
         self.name = name
     }
 
-    public init(argument: Argument, container: DependencyContainerProtocol) {
+    public init(argument: Argument, container: ContainerProtocol) {
         self.container = container
         self.argument = argument
     }

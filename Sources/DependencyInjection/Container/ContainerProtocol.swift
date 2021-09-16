@@ -1,17 +1,17 @@
 //
-//  DependencyContainerProtocol.swift
+//  ContainerProtocol.swift
 //
 //  Created by Ondřej Veselý on 12.09.2021.
 //
 
-public protocol DependencyContainerProtocol: AnyObject {
+public protocol ContainerProtocol: AnyObject {
     // MARK: Register
 
     /// Adds a registration for the specified service
     ///
     /// - Parameters:
     ///   - dependencyRegistration: The service to register.
-    func register(_ dependencyRegistration: DependencyRegistrationProtocol)
+    func register(_ dependencyRegistration: RegistrationProtocol)
 
     // MARK: Remove
 

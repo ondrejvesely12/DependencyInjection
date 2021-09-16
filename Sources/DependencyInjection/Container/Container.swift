@@ -4,12 +4,12 @@
 //  Created by Ondřej Veselý on 12.09.2021.
 //
 
-public final class DependencyContainer: DependencyContainerProtocol {
+public final class Container: ContainerProtocol {
     // MARK: - Properties
 
     // MARK: Private
 
-    private var registrations = [RegistrationIdentifier: DependencyRegistrationProtocol]()
+    private var registrations = [RegistrationIdentifier: RegistrationProtocol]()
 
     // MARK: Register
 
@@ -18,7 +18,7 @@ public final class DependencyContainer: DependencyContainerProtocol {
     ///
     /// - Parameters:
     ///   - dependencyRegistration: The service type to register.
-    public func register(_ dependencyRegistration: DependencyRegistrationProtocol) {
+    public func register(_ dependencyRegistration: RegistrationProtocol) {
         registrations[dependencyRegistration.identifier] = dependencyRegistration
     }
 
@@ -80,7 +80,7 @@ public final class DependencyContainer: DependencyContainerProtocol {
         registrations = [:]
     }
 
-    public init(registrations: [DependencyRegistrationProtocol]) {
+    public init(registrations: [RegistrationProtocol]) {
         self.registrations = registrations.reduce(into: [:]) { result, dependencyRegistration in
             result[dependencyRegistration.identifier] = dependencyRegistration
         }

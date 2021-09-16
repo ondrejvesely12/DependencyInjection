@@ -4,7 +4,7 @@
 //  Created by Ondřej Veselý on 12.09.2021.
 //
 
-public struct DependencyRegistration<Service, Argument> {
+public struct Registration<Service, Argument> {
     // MARK: - Properties
 
     /// Unique name for service

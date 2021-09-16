@@ -49,14 +49,14 @@ class CoffeeMachine {
 
 enum Dependencies {
     static let main =
-        DependencyContainer {
-            DependencyRegistration(.oneTime) {
+        Container {
+            Registration(.oneTime) {
                 TestClass() as TestClass
             }
-            DependencyRegistration(.oneTime) { (voltage: Voltage) in
+            Registration(.oneTime) { (voltage: Voltage) in
                 ElectricHeater(voltage: voltage.rawValue) as ElectricHeaterProtocol
             }
-            DependencyRegistration(name: "machineHeater", lifeCycle: .oneTime) { (voltage: Voltage) in
+            Registration(name: "machineHeater", lifeCycle: .oneTime) { (voltage: Voltage) in
                 ElectricHeater(voltage: voltage.rawValue) as ElectricHeaterProtocol
             }
         }
@@ -73,8 +73,8 @@ private class TestClassWithWrappers {
 
 final class DependencyInjectionTests: XCTestCase {
     func testString() {
-        let container: DependencyContainerProtocol = DependencyContainer()
-        container.register(DependencyRegistration(.shared) {
+        let container: ContainerProtocol = Container()
+        container.register(Registration(.shared) {
             "eeee" as String
         })
 
@@ -83,14 +83,14 @@ final class DependencyInjectionTests: XCTestCase {
     }
 
     func testDSL() {
-        let container = DependencyContainer {
-            DependencyRegistration(.oneTime) {
+        let container = Container {
+            Registration(.oneTime) {
                 String() as String
             }
-            DependencyRegistration(.oneTime) {
+            Registration(.oneTime) {
                 2 as Int
             }
-            DependencyRegistration(.shared) {
+            Registration(.shared) {
                 TestClass()
             }
         }
@@ -101,8 +101,8 @@ final class DependencyInjectionTests: XCTestCase {
     }
 
     func testDSLShared() {
-        let container = DependencyContainer {
-            DependencyRegistration(.shared) {
+        let container = Container {
+            Registration(.shared) {
                 TestClass()
             }
         }
@@ -122,8 +122,8 @@ final class DependencyInjectionTests: XCTestCase {
     }
 
     func testDSLOneTime() {
-        let container = DependencyContainer {
-            DependencyRegistration(.oneTime) {
+        let container = Container {
+            Registration(.oneTime) {
                 TestClass()
             }
         }
@@ -143,8 +143,8 @@ final class DependencyInjectionTests: XCTestCase {
     }
 
     func testDSLOneTimeOptional() {
-        let container = DependencyContainer {
-            DependencyRegistration(.oneTime) {
+        let container = Container {
+            Registration(.oneTime) {
                 TestClass() as TestClass?
             }
         }
@@ -160,7 +160,7 @@ final class DependencyInjectionTests: XCTestCase {
     }
 
     func testWithArguments() {
-        let container: DependencyContainerProtocol = DependencyContainer()
+        let container: ContainerProtocol = Container()
         container.register(lifeCycle: .oneTime) { (voltage: Voltage) in
             ElectricHeater(voltage: voltage.rawValue) as ElectricHeaterProtocol
         }

@@ -36,11 +36,11 @@ import SwiftUI
 
     // MARK: - Initialization
 
-    public init(container: DependencyContainerProtocol) {
+    public init(container: ContainerProtocol) {
         service = container.resolve()
     }
 
-    public init(name: String, container: DependencyContainerProtocol) {
+    public init(name: String, container: ContainerProtocol) {
         service = container.resolve(name: name)
     }
 }

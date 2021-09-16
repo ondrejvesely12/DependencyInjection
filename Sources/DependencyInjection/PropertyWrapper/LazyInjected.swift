@@ -24,7 +24,7 @@
     // MARK: Private
 
     private var value: Service?
-    private var container: DependencyContainerProtocol
+    private var container: ContainerProtocol
     private var name: String?
 
     private var registrationIdentifier: RegistrationIdentifier {
@@ -36,12 +36,12 @@
 
     // MARK: - Initialization
 
-    public init(name: String?, container: DependencyContainerProtocol) {
+    public init(name: String?, container: ContainerProtocol) {
         self.container = container
         self.name = name
     }
 
-    public init(container: DependencyContainerProtocol) {
+    public init(container: ContainerProtocol) {
         self.container = container
     }
 }

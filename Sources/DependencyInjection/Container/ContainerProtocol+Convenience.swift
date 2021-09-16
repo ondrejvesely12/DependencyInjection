@@ -1,18 +1,18 @@
 //
-//  DependencyContainerProtocol+Convenience.swift
+//  ContainerProtocol+Convenience.swift
 //
 //  Created by Ondřej Veselý on 12.09.2021.
 //
 
-public extension DependencyContainerProtocol {
+public extension ContainerProtocol {
     // MARK: - Register
 
     func register<Service, Argument>(name: String, lifeCycle: RegistrationLifeCycle, _ factory: @escaping (_ argument: Argument) -> Service) {
-        register(DependencyRegistration(name: name, lifeCycle: lifeCycle, factory))
+        register(Registration(name: name, lifeCycle: lifeCycle, factory))
     }
 
     func register<Service, Argument>(lifeCycle: RegistrationLifeCycle, _ factory: @escaping (_ argument: Argument) -> Service) {
-        register(DependencyRegistration(lifeCycle, factory))
+        register(Registration(lifeCycle, factory))
     }
 
     // MARK: - Resolve

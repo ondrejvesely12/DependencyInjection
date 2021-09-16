@@ -13,11 +13,11 @@ public struct InjectedWithArgument<Service, Argument> {
 
     // MARK: - Initialization
 
-    public init(_ container: DependencyContainerProtocol, argument: Argument) {
+    public init(_ container: ContainerProtocol, argument: Argument) {
         wrappedValue = container.resolve(argument: argument)
     }
 
-    public init(_ container: DependencyContainerProtocol, name: String, argument: Argument) {
+    public init(_ container: ContainerProtocol, name: String, argument: Argument) {
         wrappedValue = container.resolve(registrationIdentifier: .name(name), argument: argument)
     }
 }

@@ -4,7 +4,7 @@
 //  Created by Ondřej Veselý on 12.09.2021.
 //
 
-public protocol DependencyRegistrationProtocol {
+public protocol RegistrationProtocol {
     /// Unique name for service
     var identifier: RegistrationIdentifier { get }
 
