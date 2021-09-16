@@ -73,16 +73,16 @@ public final class DependencyContainer: DependencyContainerProtocol {
         let instance = factory(argument)
         return instance
     }
-    
+
     // MARK: - Initialization
 
     public init() {
         registrations = [:]
     }
 
-    public init(_ registrations: [DependencyRegistrationProtocol]) {
-        self.registrations = registrations.reduce(into: [:], { result, dependencyRegistration in
+    public init(registrations: [DependencyRegistrationProtocol]) {
+        self.registrations = registrations.reduce(into: [:]) { result, dependencyRegistration in
             result[dependencyRegistration.identifier] = dependencyRegistration
-        })
+        }
     }
 }

@@ -37,11 +37,13 @@ struct ElectricHeater: ElectricHeaterProtocol {
 
 struct Machine {
     let name: String
-    @LazyInjectedWithArgument<ElectricHeaterProtocol, Voltage>(name: "machineHeater", argument: .v230, container: Dependencies.main) var heater: ElectricHeaterProtocol
+    @LazyInjectedWithArgument<ElectricHeaterProtocol, Voltage>(name: "machineHeater", argument: .v230, container: Dependencies.main)
+    var heater: ElectricHeaterProtocol
 }
 
 class CoffeeMachine {
-    @LazyInjectedWithArgument<ElectricHeaterProtocol, Voltage>(name: "machineHeater230V", argument: .v230, container: Dependencies.main) var heater: ElectricHeaterProtocol
+    @LazyInjectedWithArgument<ElectricHeaterProtocol, Voltage>(name: "machineHeater230V", argument: .v230, container: Dependencies.main)
+    var heater: ElectricHeaterProtocol
     @Injected<TestClass>(Dependencies.main) var testClass
 }
 

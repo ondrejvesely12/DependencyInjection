@@ -1,1 +1,4 @@
+excluded: 
+  - Package.swift 
+
 line_length: 150
