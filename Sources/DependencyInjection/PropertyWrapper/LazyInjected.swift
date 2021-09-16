@@ -36,7 +36,7 @@
 
     // MARK: - Initialization
 
-    init(name: String? = nil, container: DependencyContainerProtocol) {
+    public init(name: String? = nil, container: DependencyContainerProtocol) {
         self.container = container
         self.name = name
     }
