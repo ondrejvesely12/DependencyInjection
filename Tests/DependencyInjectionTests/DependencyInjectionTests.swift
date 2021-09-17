@@ -50,13 +50,13 @@ class CoffeeMachine {
 enum Dependencies {
     static let main =
         Container {
-            Registration(.oneTime) {
+            OneTime {
                 TestClass() as TestClass
             }
-            Registration(.oneTime) { (voltage: Voltage) in
+            OneTime { (voltage: Voltage) in
                 ElectricHeater(voltage: voltage.rawValue) as ElectricHeaterProtocol
             }
-            Registration(name: "machineHeater", lifeCycle: .oneTime) { (voltage: Voltage) in
+            OneTime(name: "machineHeater") { (voltage: Voltage) in
                 ElectricHeater(voltage: voltage.rawValue) as ElectricHeaterProtocol
             }
         }
@@ -84,13 +84,13 @@ final class DependencyInjectionTests: XCTestCase {
 
     func testDSL() {
         let container = Container {
-            Registration(.oneTime) {
+            OneTime {
                 String() as String
             }
-            Registration(.oneTime) {
+            OneTime {
                 2 as Int
             }
-            Registration(.shared) {
+            Shared {
                 TestClass()
             }
         }
@@ -102,7 +102,7 @@ final class DependencyInjectionTests: XCTestCase {
 
     func testDSLShared() {
         let container = Container {
-            Registration(.shared) {
+            Shared {
                 TestClass()
             }
         }
@@ -123,7 +123,7 @@ final class DependencyInjectionTests: XCTestCase {
 
     func testDSLOneTime() {
         let container = Container {
-            Registration(.oneTime) {
+            OneTime {
                 TestClass()
             }
         }
@@ -144,7 +144,7 @@ final class DependencyInjectionTests: XCTestCase {
 
     func testDSLOneTimeOptional() {
         let container = Container {
-            Registration(.oneTime) {
+            OneTime {
                 TestClass() as TestClass?
             }
         }

@@ -5,11 +5,10 @@
 //
 
 public extension Container {
-    convenience init(@RegistrationBuilder _ registration: () -> RegistrationProtocol) {
-        self.init(registrations: [registration()])
-    }
-
-    convenience init(@RegistrationBuilder _ registrations: () -> [RegistrationProtocol]) {
-        self.init(registrations: registrations())
+    convenience init(@RegistrationBuilder _ registrations: () -> [RegistrationItemProtocol]) {
+        let registrations = registrations().reduce(into: []) { result, registrationItemProtocol in
+            result += registrationItemProtocol.registrations
+        }
+        self.init(registrations: registrations)
     }
 }

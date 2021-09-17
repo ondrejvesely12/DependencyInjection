@@ -11,6 +11,24 @@ public final class Container: ContainerProtocol {
 
     private var registrations = [RegistrationIdentifier: RegistrationProtocol]()
 
+    // MARK: - Initialization
+
+    public init() {
+        registrations = [:]
+    }
+
+    public init(registrations: [RegistrationProtocol]) {
+        self.registrations = registrations.reduce(into: [:]) { result, dependencyRegistration in
+            result[dependencyRegistration.identifier] = dependencyRegistration
+        }
+    }
+
+    // MARK: - Registrations
+
+    internal func allRegistrations() -> [RegistrationProtocol] {
+        Array(registrations.values)
+    }
+
     // MARK: Register
 
     /// Adds a registration for the specified service with the factory closure to specify how the service is
@@ -72,17 +90,5 @@ public final class Container: ContainerProtocol {
         let factory: (Argument) -> Service = dependencyRegistration.getFactory()
         let instance = factory(argument)
         return instance
-    }
-
-    // MARK: - Initialization
-
-    public init() {
-        registrations = [:]
-    }
-
-    public init(registrations: [RegistrationProtocol]) {
-        self.registrations = registrations.reduce(into: [:]) { result, dependencyRegistration in
-            result[dependencyRegistration.identifier] = dependencyRegistration
-        }
     }
 }
