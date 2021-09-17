@@ -9,7 +9,7 @@ public protocol RegistrationProtocol {
     var identifier: RegistrationIdentifier { get }
 
     /// The lifecycle of the current service
-    var lifeCycle: RegistrationLifeCycle { get }
+    var lifeCycle: Scope { get }
 
     /// Instance
     var instance: Any? { get set }

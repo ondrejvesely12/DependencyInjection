@@ -7,11 +7,11 @@
 public extension ContainerProtocol {
     // MARK: - Register
 
-    func register<Service, Argument>(name: String, lifeCycle: RegistrationLifeCycle, _ factory: @escaping (_ argument: Argument) -> Service) {
+    func register<Service, Argument>(name: String, lifeCycle: Scope, _ factory: @escaping (_ argument: Argument) -> Service) {
         register(Registration(name: name, lifeCycle: lifeCycle, factory))
     }
 
-    func register<Service, Argument>(lifeCycle: RegistrationLifeCycle, _ factory: @escaping (_ argument: Argument) -> Service) {
+    func register<Service, Argument>(lifeCycle: Scope, _ factory: @escaping (_ argument: Argument) -> Service) {
         register(Registration(lifeCycle, factory))
     }
 
