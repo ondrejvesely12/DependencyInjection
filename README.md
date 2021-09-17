@@ -10,6 +10,8 @@
 - [x] Object Scopes as None (Transient), Container (Singleton)
 - [x] Support of both Reference and Value Types
 - [x] Property wrapper that can be used to inject objects
+- [x] Property wrapper that can be used to inject objects
+- [x] Creating a container using a domain-specific language (DSL)
 
 ## Basic Usage
 
@@ -17,15 +19,16 @@ First, you need to create the [`Container`](Sources/DependencyInjection/Containe
 
 For example, when using :
 ```swift
-let container = DependencyContainer {
-    DependencyRegistration(.oneTime) { (voltage: Voltage) in
+
+let container = Container {
+    Shared {
+        TestClass() as TestClass
+    }
+    OneTime { (voltage: Voltage) in
         ElectricHeater(voltage: voltage.rawValue) as ElectricHeaterProtocol
     }
-    DependencyRegistration(name: "machineHeater230V", lifeCycle: .oneTime) {
-        ElectricHeater(voltage: Voltage.v230.rawValue) as ElectricHeaterProtocol
-    }
-    DependencyRegistration(.shared) {
-        TestClass()
+    OneTime(name: "machineHeater") { (voltage: Voltage) in
+        ElectricHeater(voltage: voltage.rawValue) as ElectricHeaterProtocol
     }
 }
 
@@ -46,11 +49,33 @@ let testClass: TestClass = container.resolve()
 Now you can use the `@Inject` property wrapper to inject objects/services in your own classes:
 
 ```swift
+
+enum Dependencies {
+    static let main =
+        Container {
+            OneTime {
+                TestClass()
+            }
+            OneTime { (voltage: Voltage) in
+                ElectricHeater(voltage: voltage.rawValue) as ElectricHeaterProtocol
+            }
+            OneTime(name: "machineHeater") { (voltage: Voltage) in
+                ElectricHeater(voltage: voltage.rawValue) as ElectricHeaterProtocol
+            }
+        }
+}
+
 class CoffeeMachine {
-    @LazyInjectedWithArgument<ElectricHeaterProtocol, Voltage>(name: "machineHeater230V", argument: .v230, container: container)
+    // Heater
+    @LazyInjectedWithArgument<ElectricHeaterProtocol, Voltage>(name: "machineHeater", argument: .v230, container: Dependencies.main)
     var heater: ElectricHeaterProtocol
     
-    @Injected<TestClass>(container) var testClass
+    // Test Class
+    @Injected<TestClass>(container: Dependencies.main) var testClass
+
+    // Test Class 2
+    @Injected(container: Dependencies.main) var testClass2: TestClass
 }
+
 
 ```
