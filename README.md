@@ -10,7 +10,6 @@
 - [x] Object Scopes as None (Transient), Container (Singleton)
 - [x] Support of both Reference and Value Types
 - [x] Property wrapper that can be used to inject objects
-- [x] Property wrapper that can be used to inject objects
 - [x] Creating a container using a domain-specific language (DSL)
 
 ## Basic Usage
