@@ -5,7 +5,7 @@
 //
 
 @resultBuilder
-enum RegistrationBuilder {
+public enum RegistrationBuilder {
     public static func buildBlock(_ inputs: RegistrationItemProtocol...) -> [RegistrationItemProtocol] {
         inputs
     }
